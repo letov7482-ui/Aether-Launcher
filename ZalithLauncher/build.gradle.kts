@@ -80,7 +80,7 @@ android {
         applicationId = zalithPackageName
         applicationIdSuffix = ".v2"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 34
         versionCode = launcherVersionCode
         versionName = launcherVersionName
         manifestPlaceholders["launcher_name"] = launcherAPPName
@@ -252,6 +252,7 @@ dependencies {
     implementation(project(":LayerController"))
     implementation(project(":ColorPicker"))
     implementation(project(":Terracotta"))
+    implementation(project(":VerifiedPluginLoad"))
     //Utils
     implementation(libs.bytehook)
     implementation(libs.gson)
@@ -263,7 +264,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.ktor.http)
     implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.cio)
@@ -276,7 +277,6 @@ dependencies {
     implementation(libs.fishnet)
     implementation(libs.process.phoenix)
     implementation(libs.lunarcalendar)
-    implementation(libs.verifiedpluginload)
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     //Safe
     implementation(libs.androidx.room.runtime)
@@ -291,6 +291,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     //Test
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
