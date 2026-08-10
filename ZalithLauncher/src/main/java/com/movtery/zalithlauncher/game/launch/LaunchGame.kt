@@ -31,6 +31,8 @@ import com.movtery.zalithlauncher.game.account.microsoft.MinecraftProfileExcepti
 import com.movtery.zalithlauncher.game.account.microsoft.NotPurchasedMinecraftException
 import com.movtery.zalithlauncher.game.account.microsoft.XboxLoginException
 import com.movtery.zalithlauncher.game.account.microsoft.toLocal
+import com.movtery.zalithlauncher.game.plugin.vpl.PluginNativeLoadGuard
+import com.movtery.zalithlauncher.game.plugin.vpl.PluginTrustGate
 import com.movtery.zalithlauncher.game.version.download.DownloadMode
 import com.movtery.zalithlauncher.game.version.download.MinecraftDownloader
 import com.movtery.zalithlauncher.game.version.installed.GraphicsApi
@@ -48,6 +50,7 @@ import com.movtery.zalithlauncher.utils.network.isNetworkAvailable
 import com.movtery.zalithlauncher.utils.network.toLocal
 import com.movtery.zalithlauncher.viewmodel.ErrorViewModel
 import io.ktor.client.plugins.HttpRequestTimeoutException
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.ConnectException
@@ -129,8 +132,27 @@ object LaunchGame {
                 task.updateMessage(androidText(R.string.game_vulkan_check_title))
                 checkVulkanCapabilities(version, waitForVulkanChecker)
 
-                runGame(context, version, account)
-                exitActivity()
+                runCatching {
+                    val authorizations = PluginTrustGate.verifyForLaunch(context) { title ->
+                        task.updateMessage(title)
+                    }
+                    PluginNativeLoadGuard.verify(context, authorizations)
+                }.onSuccess {
+                    runGame(context, version, account)
+                    exitActivity()
+                }.onFailure { e ->
+                    if (e is CancellationException) {
+                        Logger.info(TAG, "Plugin trust gate cancelled by user")
+                    } else {
+                        Logger.error(TAG, "Plugin trust gate failed", e)
+                        submitError(
+                            ErrorViewModel.ThrowableMessage(
+                                title = androidText(R.string.plugin_trust_level_error),
+                                message = androidText(e.stackTraceToString())
+                            )
+                        )
+                    }
+                }
             },
             onError = { message ->
                 submitError(

@@ -20,6 +20,7 @@ package com.movtery.zalithlauncher.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -46,6 +47,9 @@ import com.movtery.zalithlauncher.coroutine.TaskSystem
 import com.movtery.zalithlauncher.game.control.ControlManager
 import com.movtery.zalithlauncher.game.plugin.PluginLoader
 import com.movtery.zalithlauncher.game.plugin.driver.DriverPluginManager
+import com.movtery.zalithlauncher.game.plugin.vpl.PluginTrustDialogHost
+import com.movtery.zalithlauncher.game.plugin.vpl.PluginTrustGate
+import com.movtery.zalithlauncher.game.plugin.vpl.PluginTrustListSync
 import com.movtery.zalithlauncher.game.renderer.Renderers
 import com.movtery.zalithlauncher.game.version.installed.VersionsManager
 import com.movtery.zalithlauncher.notification.NotificationManager
@@ -176,8 +180,8 @@ class MainActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //处理外部导入
-        val isImporting = handleImportIfNeeded(intent)
+
+        PluginTrustListSync.start(applicationContext)
 
         //加载渲染器
         Renderers.init()
@@ -187,6 +191,9 @@ class MainActivity : BaseAppCompatActivity() {
 
         //初始化通知管理（创建渠道）
         NotificationManager.initManager(this)
+
+        //处理外部导入
+        val isImporting = handleImportIfNeeded(intent)
 
         //检查更新
         if (!isImporting && launcherUpgradeViewModel.operation == LauncherUpgradeOperation.None) {
@@ -479,6 +486,8 @@ class MainActivity : BaseAppCompatActivity() {
                         AllSettings.autoVulkanChecker.save(false)
                     }
                 )
+
+                PluginTrustDialogHost()
             }
         }
     }
@@ -490,6 +499,11 @@ class MainActivity : BaseAppCompatActivity() {
         Renderers.init(true)
         // 重载插件
         PluginLoader.loadAllPlugins(this, true)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        PluginTrustGate.resetUnknownPluginCooldown()
     }
 
     /**
