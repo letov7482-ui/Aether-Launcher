@@ -3,7 +3,6 @@
     <style name="AppTheme.ZalithLauncher" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:animationDurationScale">0.5</item>
     </style>
     <style name="AppTheme.SplashScreen" parent="@style/Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/AppTheme.ZalithLauncher</item>
