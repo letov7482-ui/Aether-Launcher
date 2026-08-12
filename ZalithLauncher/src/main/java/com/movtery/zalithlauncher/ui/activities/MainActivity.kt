@@ -107,6 +107,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.Locale
+import com.movtery.zalithlauncher.account.AccountUtils
+import com.movtery.zalithlauncher.account.OfflineAccount
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 
@@ -326,35 +328,36 @@ class MainActivity : BaseAppCompatActivity() {
                         modifier = Modifier.fillMaxSize(),
                         festivals = festivals
                     )
-                   // Кнопка "Play Offline"
-                  val context = LocalContext.current
-                      Button(
-                       onClick = {
-                     val builder = AlertDialog.Builder(context)
-                     builder.setTitle("Офлайн-аккаунт")
+                    
+                 // Кнопка "Play Offline"
+             val context = LocalContext.current
+             Button(
+            onClick = {
+            val builder = AlertDialog.Builder(context)
+                 builder.setTitle("Офлайн-аккаунт")
+  
+                  val input = EditText(context)
+                    input.setText("Player")
+                      builder.setView(input)
 
-                       val input = EditText(context)
-                       input.setText("Player")
-                       builder.setView(input)
-
-                       builder.setPositiveButton("Играть") { dialog, _ ->
-                       val nickname = input.text.toString().ifBlank { "Player" }
-                       val account = OfflineAccount(nickname)
+                    builder.setPositiveButton("Играть") { dialog, _ ->
+                     val nickname = input.text.toString().ifBlank { "Player" }
+                      val account = OfflineAccount(nickname)
                        AccountUtils.addAccount(account)
-                        AccountUtils.setSelectedAccount(account)
-                        launchGameViewModel.tryLaunch()
-                        dialog.dismiss()
-                        }
-                        builder.setNegativeButton("Отмена") { dialog, _ ->
-                        dialog.dismiss()
-                        }
-                        builder.show()
-                        },
-                        modifier = Modifier.padding(8.dp)
-                        ) {
-                        Text("⚡ Play Offline")
-                    }
-
+                       AccountUtils.setSelectedAccount(account)
+                       launchGameViewModel.tryLaunch()
+                     dialog.dismiss()
+                       }
+                   builder.setNegativeButton("Отмена") { dialog, _ ->
+                dialog.dismiss()
+               }
+             builder.show()
+             },
+              modifier = Modifier.padding(8.dp)
+             ) {
+             Text("⚡ Play Offline")
+            }
+ 
                      //启动游戏操作流程
                     LaunchGameOperation(
                         activity = this@MainActivity,
