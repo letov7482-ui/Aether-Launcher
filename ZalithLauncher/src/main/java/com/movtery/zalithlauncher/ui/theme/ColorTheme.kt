@@ -39,5 +39,17 @@ enum class ColorThemeType {
     VERDANTFIELD,
     URBAN_ASH,
     VERDANT_DAWN,
+    GOLDEN,    // <-- наша новая тема
     CUSTOM
 }
+
+// Тема Aether (золотая)
+val GoldenTheme = ColorTheme(
+    embermire = Color(0xFFFFD700),   // Золотой (основной)
+    velvetRose = Color(0xFFFFB300),  // Тёмно-золотой
+    mistwave = Color(0xFF0A0A0F),    // Глубокий тёмный (фон)
+    glacier = Color(0xFF1A1A2E),     // Тёмно-синий (карточки)
+    verdantField = Color(0xFF000000),// Чёрный (текст на золотом)
+    urbanAsh = Color(0xFF2A2A2A),    // Серый (для второстепенных элементов)
+    verdantDawn = Color(0xFF3F3F3F)  // Светло-серый
+)
