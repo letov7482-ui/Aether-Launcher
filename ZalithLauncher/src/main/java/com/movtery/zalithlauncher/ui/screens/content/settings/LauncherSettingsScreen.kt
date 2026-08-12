@@ -193,6 +193,7 @@ fun LauncherSettingsScreen(
                                 ColorThemeType.VERDANTFIELD -> stringResource(R.string.theme_color_verdant_field)
                                 ColorThemeType.URBAN_ASH -> stringResource(R.string.theme_color_urban_ash)
                                 ColorThemeType.VERDANT_DAWN -> stringResource(R.string.theme_color_verdant_dawn)
+                                ColorThemeType.GOLDEN -> "Aether Gold"
                                 ColorThemeType.CUSTOM -> stringResource(R.string.generic_custom)
                             }
                         },
