@@ -15,8 +15,12 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew assembleDebug
+      - name: List APK files (debug)
+        run: |
+          echo "=== Listing all APK files in ZalithLauncher/build ==="
+          find ZalithLauncher/build -name "*.apk" -type f
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: aether-launcher-debug
-          path: ZalithLauncher/build/outputs/apk/debug/ZalithLauncher-debug.apk
+          path: ZalithLauncher/build/outputs/apk/debug/*.apk
