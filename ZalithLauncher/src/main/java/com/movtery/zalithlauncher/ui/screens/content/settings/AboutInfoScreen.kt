@@ -213,14 +213,14 @@ fun AboutInfoScreen(
                             openLink = { openLink(URL_WEBLATE) }
                         )
                         LinkIconItem(
-                icon = painterResource(R.drawable.ic_link),
-                title = "AetherMods",
-                text = "Telegram: @AetherMods",
-                openLink = { openLink("https://t.me/AetherMods") }
-            )
-        }
-    }
-            }
+                            icon = painterResource(R.drawable.ic_link),
+                            title = "AetherMods",
+                            text = "Telegram: @AetherMods",
+                            openLink = { openLink("https://t.me/AetherMods") }
+                         )
+                       }
+                     }
+                  }
                 
             
 
