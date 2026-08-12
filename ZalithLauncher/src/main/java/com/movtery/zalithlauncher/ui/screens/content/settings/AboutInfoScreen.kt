@@ -212,9 +212,17 @@ fun AboutInfoScreen(
                             text = stringResource(R.string.about_acknowledgements_weblate_community_text),
                             openLink = { openLink(URL_WEBLATE) }
                         )
-                    }
-                }
+                        LinkIconItem(
+                icon = painterResource(R.drawable.ic_link),
+                title = "AetherMods",
+                text = "Telegram: @AetherMods",
+                openLink = { openLink("https://t.me/AetherMods") }
+            )
+        }
+    }
             }
+                
+            
 
             //额外依赖库板块
             animatedItem(scope) { yOffset ->
