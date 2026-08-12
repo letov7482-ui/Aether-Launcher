@@ -24,8 +24,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ZalithLauncher"
-include(":ZalithLauncher")
+rootProject.name = "Aether Launcher"
+include(":AetherLauncher")
 include(":LWJGL")
 include(":LayerController")
 include(":ColorPicker")
